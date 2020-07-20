@@ -54,25 +54,12 @@ def hover(event):
 	if x_pos:
 		if int(x_pos) in X:
 			if (abs(int(y_pos) - dataset[int(x_pos)]) <= 500):
-					# print(int(x_pos), int(y_pos))
 					update_annot(int(x_pos))
 					annot.set_visible(True)
 					fig.canvas.draw_idle()
 			else: no_annot()
 		else: no_annot()
 	else: no_annot()
-		
-	# vis = annot.get_visible()
-	# if event.inaxes == ax:
-	#     cont, ind = sc.contains(event)
-	#     if cont:
-	#         update_annot(ind)
-	#         annot.set_visible(True)
-	#         fig.canvas.draw_idle()
-	#     else:
-	#         if vis:
-	#             annot.set_visible(False)
-	#             fig.canvas.draw_idle()
 
 plt.legend(loc="upper center")
 fig.canvas.mpl_connect("motion_notify_event", hover)

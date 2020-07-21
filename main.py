@@ -1,12 +1,12 @@
 import json
 import matplotlib.pyplot as plt
-import datetime
+from datetime import datetime
 from collections import Counter
 from COUNTRY import STATES
 
 def date_to_int(date):
-	today = datetime.datetime.now()
-	day_of_year = (date - datetime.datetime(today.year, 1, 1)).days + 1
+	today = datetime.now()
+	day_of_year = (date - datetime(today.year, 1, 1)).days + 1
 	return day_of_year
 
 def int_to_date(integer):
@@ -16,8 +16,8 @@ with open("states_daily.json", "r") as read_file:
 	data = json.load(read_file)['states_daily']
 
 dates = list(set([d['date'] for d in data]))
-dates = sorted(dates, key=lambda date: datetime.datetime.strptime(date, '%d-%b-%y')) # %b - abbreviated months
-dates_to_integer = [date_to_int(datetime.datetime.strptime(date, '%d-%b-%y')) for date in dates]
+dates = sorted(dates, key=lambda date: datetime.strptime(date, '%d-%b-%y')) # %b - abbreviated months
+dates_to_integer = [date_to_int(datetime.strptime(date, '%d-%b-%y')) for date in dates]
 total_confirmed_each_day = {}
 date = 0
 for i in range(0, len(data), 3):
@@ -42,8 +42,6 @@ def update_annot(x_pos):
 	annot.xy = (x_pos, y_pos)
 	text = "{}, {}".format(int_to_date(x_pos), y_pos)
 	annot.set_text(text)
-	# annot.get_bbox_patch().set_facecolor(cmap(norm(c[ind["ind"][0]])))
-	# annot.get_bbox_patch().set_alpha(0.4)
 
 def no_annot():
 	annot.set_visible(False)

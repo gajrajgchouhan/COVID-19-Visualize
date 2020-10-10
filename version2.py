@@ -13,23 +13,23 @@ data = data.apply(pd.to_numeric, errors='ignore')
 dates = list(data["date"].drop_duplicates())
 data["date"] = pd.to_datetime(data['date'])
 
-state = "rj"
+state = "tt"
 data = data.loc[:, [state, "status", "date"]]
-color = ["Blue", "Green", "Red"]
+color = ["Blue", "Red", "Green",]
 
 X = range(len(dates))
 i = 0
 fig, ax = plt.subplots()
 
+
 for status, st_data in data.groupby("status"):
     Y = st_data[state]
-    ax.plot(X, Y, "-k", Color=color[i], label=status, markersize=5)
+    ax.plot(X, Y, "-ok", Color=color[i], label=status, markersize=5)
     i += 1
 
-def update_annot(x_pos):
-    y_pos = dataset[x_pos]
+def update_annot(date, x_pos, y_pos):
     annot.xy = (x_pos, y_pos)
-    text = "{}, {}".format(int_to_date[x_pos], y_pos)
+    text = "{}, {}".format(date, y_pos)
     annot.set_text(text)
 
 
@@ -41,13 +41,13 @@ def no_annot():
 def hover(event):
     x_pos, y_pos = event.xdata, event.ydata # date, case
     if x_pos:
-        if int(x_pos) in X:
-            print(event.artist)
-            # if abs(int(y_pos) - dataset[int(x_pos)]) <= 500:
-            #     update_annot(int(x_pos))
-            #     annot.set_visible(True)
-            #     fig.canvas.draw_idle()
-            #     return
+        if int(x_pos) - x_pos <= 1 and int(x_pos) in X:
+            # date as number exists
+            date = dates[int(x_pos)]
+            update_annot(date, int(x_pos), y_pos)
+            annot.set_visible(True)
+            fig.canvas.draw_idle()
+            return
     no_annot()
 
 plt.legend()
